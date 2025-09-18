@@ -1,45 +1,44 @@
 /**
- * Sample React Native App
- * https://github.com/facebook/react-native
+ * HabbitApp - Habit Tracking Application
+ * Built with React Native
  *
  * @format
  */
 
-import { NewAppScreen } from '@react-native/new-app-screen';
-import { StatusBar, StyleSheet, useColorScheme, View } from 'react-native';
-import {
-  SafeAreaProvider,
-  useSafeAreaInsets,
-} from 'react-native-safe-area-context';
+import React, { useState } from 'react';
+import { StatusBar } from 'react-native';
+import { SafeAreaProvider } from 'react-native-safe-area-context';
+import { SplashScreen } from './src/components';
+import { HomeScreen, OnboardingScreen } from './src/screens';
+import { IMAGES } from './src/constants/images';
 
 function App() {
-  const isDarkMode = useColorScheme() === 'dark';
+  const [showSplash, setShowSplash] = useState(true);
+  const [showOnboarding, setShowOnboarding] = useState(true);
+
+  const handleSplashEnd = () => {
+    setShowSplash(false);
+  };
+
+  const handleOnboardingComplete = () => {
+    setShowOnboarding(false);
+  };
 
   return (
     <SafeAreaProvider>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <AppContent />
+      <StatusBar backgroundColor="#6C63FF" barStyle="light-content" />
+      {showSplash ? (
+        <SplashScreen 
+          onAnimationEnd={handleSplashEnd} 
+          logoSource={IMAGES.SplashLogo}
+        />
+      ) : showOnboarding ? (
+        <OnboardingScreen onComplete={handleOnboardingComplete} />
+      ) : (
+        <HomeScreen />
+      )}
     </SafeAreaProvider>
   );
 }
-
-function AppContent() {
-  const safeAreaInsets = useSafeAreaInsets();
-
-  return (
-    <View style={styles.container}>
-      <NewAppScreen
-        templateFileName="App.tsx"
-        safeAreaInsets={safeAreaInsets}
-      />
-    </View>
-  );
-}
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-});
 
 export default App;
