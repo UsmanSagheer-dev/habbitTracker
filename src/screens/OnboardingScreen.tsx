@@ -9,6 +9,7 @@ import {
   Image,
   StatusBar,
 } from 'react-native';
+import { IMAGES } from '../constants/images';
 
 const { width, height } = Dimensions.get('window');
 
@@ -29,7 +30,7 @@ const slides: OnboardingSlide[] = [
     id: 1,
     title: "Welcome to Habitly - Your Personal Habit Tracker!",
     description: "Take control of your habits and transform your life with Habitly. Let's get started on your journey to success!",
-    image: "📱", // We'll use emoji for now, can be replaced with actual images
+    image: "📱",
     backgroundColor: "#6C63FF",
   },
   {
@@ -37,14 +38,14 @@ const slides: OnboardingSlide[] = [
     title: "Explore Habitly Features for Your Journey!",
     description: "With intuitive habit creation and insightful progress tracking, Habitly makes it easy to stay focused, motivated, and accountable.",
     image: "🎯",
-    backgroundColor: "#7B68EE",
+    backgroundColor: "#FF6B9D",
   },
   {
     id: 3,
     title: "Unlock Your Potential with Habitly Now!",
     description: "Achieve your goals with Habitly's suite of features. Start your habit journey today and unlock your full potential!",
     image: "🚀",
-    backgroundColor: "#8A7FFF",
+    backgroundColor: "#4ECDC4",
   },
 ];
 
@@ -76,105 +77,39 @@ const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onComplete }) => {
 
   const renderSlide = (slide: OnboardingSlide, index: number) => (
     <View key={slide.id} style={[styles.slide, { backgroundColor: slide.backgroundColor }]}>
-      <StatusBar backgroundColor={slide.backgroundColor} barStyle="light-content" />
-      
+      <StatusBar backgroundColor={slide.backgroundColor} />
+
       {/* Phone Mockup Container */}
-      <View style={styles.phoneContainer}>
-        <View style={styles.phoneMockup}>
-          <View style={styles.phoneNotch} />
-          <View style={styles.phoneScreen}>
-            <View style={styles.phoneContent}>
-              <Text style={styles.phoneEmoji}>{slide.image}</Text>
-              {/* Mock UI Elements */}
-              <View style={styles.mockUI}>
-                {index === 0 && (
-                  <>
-                    <View style={styles.mockHeader}>
-                      <View style={styles.mockTab} />
-                      <View style={[styles.mockTab, styles.mockTabActive]} />
-                      <View style={styles.mockTab} />
-                    </View>
-                    <View style={styles.mockHabitCard}>
-                      <View style={[styles.mockHabitIcon, { backgroundColor: '#FF6B6B' }]} />
-                      <Text style={styles.mockHabitText}>Set Small Goals</Text>
-                    </View>
-                    <View style={styles.mockHabitCard}>
-                      <View style={[styles.mockHabitIcon, { backgroundColor: '#4ECDC4' }]} />
-                      <Text style={styles.mockHabitText}>Work</Text>
-                    </View>
-                    <View style={styles.mockHabitCard}>
-                      <View style={[styles.mockHabitIcon, { backgroundColor: '#45B7D1' }]} />
-                      <Text style={styles.mockHabitText}>Meditation</Text>
-                    </View>
-                  </>
-                )}
-                {index === 1 && (
-                  <>
-                    <View style={styles.mockCalendar}>
-                      <View style={styles.mockCalendarHeader}>
-                        <Text style={styles.mockCalendarTitle}>Set Small Goals</Text>
-                      </View>
-                      <View style={styles.mockCalendarGrid}>
-                        {[...Array(7)].map((_, i) => (
-                          <View key={i} style={[styles.mockCalendarDay, i < 5 && styles.mockCalendarDayCompleted]} />
-                        ))}
-                      </View>
-                    </View>
-                    <View style={styles.mockCalendar}>
-                      <View style={styles.mockCalendarHeader}>
-                        <Text style={styles.mockCalendarTitle}>Meditation</Text>
-                      </View>
-                      <View style={styles.mockCalendarGrid}>
-                        {[...Array(7)].map((_, i) => (
-                          <View key={i} style={[styles.mockCalendarDay, i < 3 && styles.mockCalendarDayCompleted]} />
-                        ))}
-                      </View>
-                    </View>
-                  </>
-                )}
-                {index === 2 && (
-                  <>
-                    <View style={styles.mockStats}>
-                      <Text style={styles.mockStatsTitle}>Report</Text>
-                      <View style={styles.mockStatsRow}>
-                        <Text style={styles.mockStatsLabel}>226 days</Text>
-                        <Text style={styles.mockStatsValue}>89%</Text>
-                      </View>
-                      <View style={styles.mockStatsRow}>
-                        <Text style={styles.mockStatsLabel}>3,268</Text>
-                        <Text style={styles.mockStatsValue}>307</Text>
-                      </View>
-                    </View>
-                    <View style={styles.mockChart}>
-                      {[...Array(7)].map((_, i) => (
-                        <View key={i} style={[styles.mockChartBar, { height: Math.random() * 60 + 20 }]} />
-                      ))}
-                    </View>
-                  </>
-                )}
-              </View>
-            </View>
-          </View>
+
+      <View style={styles.phoneScreen}>
+        <View style={styles.containerlogo}>
+          <Image
+            source={IMAGES.HabitFirst}
+            style={styles.onboardingImage}
+            resizeMode="stretch"
+          />
         </View>
       </View>
 
-      {/* Content */}
+      {/* Content with Curved Dip Effect */}
       <View style={styles.content}>
-        <Text style={styles.title}>{slide.title}</Text>
-        <Text style={styles.description}>{slide.description}</Text>
-      </View>
+        <View style={styles.contentContainer}>
+          <Text style={styles.title}>{slide.title}</Text>
+          <Text style={styles.description}>{slide.description}</Text>
+        </View>
 
-      {/* Pagination Dots */}
-      <View style={styles.pagination}>
-        {slides.map((_, i) => (
-          <View
-            key={i}
-            style={[
-              styles.paginationDot,
-              i === currentIndex && styles.paginationDotActive,
-            ]}
-          />
-        ))}
+        {/* Pagination Dots */}
+        <View style={styles.pagination}>
+          {slides.map((_, i) => (
+            <View
+              key={i}
+              style={[
+                styles.paginationDot,
+                i === currentIndex && styles.paginationDotActive,
+              ]}
+            />
+          ))}
+        </View>
       </View>
 
       {/* Buttons */}
@@ -182,10 +117,9 @@ const OnboardingScreen: React.FC<OnboardingScreenProps> = ({ onComplete }) => {
         <TouchableOpacity style={styles.skipButton} onPress={handleSkip}>
           <Text style={styles.skipButtonText}>Skip</Text>
         </TouchableOpacity>
-        
         <TouchableOpacity style={styles.continueButton} onPress={handleNext}>
           <Text style={styles.continueButtonText}>
-            {currentIndex === slides.length - 1 ? "Let's Get Started" : "Continue"}
+            {currentIndex === slides.length - 1 ? "Get Started" : "Continue"}
           </Text>
         </TouchableOpacity>
       </View>
@@ -212,182 +146,93 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  slide: {
-    width,
-    height,
-    paddingHorizontal: 20,
-    paddingVertical: 60,
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
-  phoneContainer: {
-    flex: 1,
+  containerlogo: {
     justifyContent: 'center',
     alignItems: 'center',
-    marginTop: 40,
-  },
-  phoneMockup: {
-    width: width * 0.7,
-    height: height * 0.45,
-    backgroundColor: '#000',
-    borderRadius: 30,
-    padding: 4,
+    backgroundColor: 'rgba(255, 255, 255, 0.9)',
+    height: 400,
+    marginTop: 15,
+    paddingLeft: 15,
+    paddingRight: 15,
+    overflow: 'hidden',
+    position: 'relative',
+    borderRadius: 25,
+    marginHorizontal: 20,
     shadowColor: '#000',
     shadowOffset: {
       width: 0,
-      height: 10,
+      height: 4,
     },
     shadowOpacity: 0.3,
-    shadowRadius: 20,
-    elevation: 15,
+    shadowRadius: 4.65,
+    elevation: 8,
+  },
+  slide: {
+    width,
+    height,
   },
   phoneNotch: {
-    width: 80,
-    height: 25,
-    backgroundColor: '#000',
-    alignSelf: 'center',
-    borderBottomLeftRadius: 15,
-    borderBottomRightRadius: 15,
-    position: 'absolute',
-    top: 0,
-    zIndex: 1,
+
   },
   phoneScreen: {
-    flex: 1,
-    backgroundColor: '#FFFFFF',
-    borderRadius: 26,
-    overflow: 'hidden',
-    paddingTop: 30,
-  },
-  phoneContent: {
-    flex: 1,
-    alignItems: 'center',
-    padding: 20,
-  },
-  phoneEmoji: {
-    fontSize: 40,
-    marginBottom: 20,
-  },
-  mockUI: {
     width: '100%',
-    flex: 1,
   },
-  mockHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: 20,
-  },
-  mockTab: {
-    width: 60,
-    height: 8,
-    backgroundColor: '#E0E0E0',
-    borderRadius: 4,
-  },
-  mockTabActive: {
-    backgroundColor: '#6C63FF',
-  },
-  mockHabitCard: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#F8F9FA',
-    padding: 12,
-    borderRadius: 12,
-    marginBottom: 8,
-  },
-  mockHabitIcon: {
-    width: 24,
-    height: 24,
-    borderRadius: 12,
-    marginRight: 12,
-  },
-  mockHabitText: {
-    fontSize: 14,
-    color: '#333',
-    fontWeight: '500',
-  },
-  mockCalendar: {
-    backgroundColor: '#F8F9FA',
-    borderRadius: 12,
-    padding: 12,
-    marginBottom: 12,
-  },
-  mockCalendarHeader: {
-    marginBottom: 8,
-  },
-  mockCalendarTitle: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#333',
-  },
-  mockCalendarGrid: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-  },
-  mockCalendarDay: {
-    width: 20,
-    height: 20,
-    borderRadius: 10,
-    backgroundColor: '#E0E0E0',
-  },
-  mockCalendarDayCompleted: {
-    backgroundColor: '#4CAF50',
-  },
-  mockStats: {
-    backgroundColor: '#F8F9FA',
-    borderRadius: 12,
-    padding: 12,
-    marginBottom: 12,
-  },
-  mockStatsTitle: {
-    fontSize: 14,
-    fontWeight: '600',
-    color: '#333',
-    marginBottom: 8,
-  },
-  mockStatsRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 4,
-  },
-  mockStatsLabel: {
-    fontSize: 12,
-    color: '#666',
-  },
-  mockStatsValue: {
-    fontSize: 12,
-    fontWeight: '600',
-    color: '#333',
-  },
-  mockChart: {
-    flexDirection: 'row',
-    alignItems: 'flex-end',
-    justifyContent: 'space-between',
-    height: 80,
-    backgroundColor: '#F8F9FA',
-    borderRadius: 12,
-    padding: 12,
-  },
-  mockChartBar: {
-    width: 12,
-    backgroundColor: '#6C63FF',
-    borderRadius: 6,
+  onboardingImage: {
+    width: 250,
+    height: 400,
+    marginTop: 40,
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
+    position: 'absolute',
   },
   content: {
+    flex: 1,
+    paddingTop: 20,
     alignItems: 'center',
     paddingHorizontal: 20,
-    marginBottom: 20,
+    marginTop: -30,           // Overlap with phone screen
+    backgroundColor: 'white',
+    borderTopLeftRadius: 40,  // Match phone screen's top left curve
+    borderTopRightRadius: 40, // Match phone screen's top right curve
+    overflow: 'hidden',
+    paddingBottom: 120,       // Space for buttons
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: -2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 3.84,
+    elevation: 5,
+    justifyContent: 'space-between',
+  },
+  contentContainer: {
+    width: '100%',
+    alignItems: 'center',
+    paddingTop: 5,
+    backgroundColor: 'white',
+    borderTopWidth: 0,
+    borderBottomWidth: 10,    // Create a dip effect
+    borderBottomColor: 'white',
+    borderLeftWidth: 20,
+    borderLeftColor: 'transparent',
+    borderRightWidth: 20,
+    borderRightColor: 'transparent',
+    borderTopLeftRadius: 40,
+    borderTopRightRadius: 40,
+    flex: 0,
   },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#FFFFFF',
+    color: '#2D3748',
     textAlign: 'center',
     marginBottom: 16,
     lineHeight: 30,
   },
   description: {
     fontSize: 16,
-    color: 'rgba(255, 255, 255, 0.9)',
+    color: '#4A5568',
     textAlign: 'center',
     lineHeight: 24,
     paddingHorizontal: 10,
@@ -395,17 +240,19 @@ const styles = StyleSheet.create({
   pagination: {
     flexDirection: 'row',
     justifyContent: 'center',
-    marginBottom: 40,
+    alignItems: 'center',
+    paddingVertical: 20,
+    backgroundColor: 'transparent',
   },
   paginationDot: {
     width: 8,
     height: 8,
     borderRadius: 4,
-    backgroundColor: 'rgba(255, 255, 255, 0.3)',
+    backgroundColor: 'rgba(45, 55, 72, 0.3)',
     marginHorizontal: 4,
   },
   paginationDotActive: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#6C63FF',
     width: 24,
   },
   buttonContainer: {
@@ -413,29 +260,59 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
-    paddingHorizontal: 20,
+    paddingHorizontal: 30,
+    paddingVertical: 20,
+    position: 'absolute',
+    bottom: 20,
+    left: 0,
+    right: 0,
   },
   skipButton: {
-    paddingVertical: 12,
-    paddingHorizontal: 24,
+    paddingVertical: 14,
+    paddingHorizontal: 28,
+    borderRadius: 25,
+    backgroundColor: 'rgba(255, 255, 255, 0.15)',
+    borderWidth: 1,
+    borderColor: 'rgba(255, 255, 255, 0.3)',
+    minWidth: 100,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.1,
+    shadowRadius: 2,
+    elevation: 3,
   },
   skipButtonText: {
     fontSize: 16,
-    color: 'rgba(255, 255, 255, 0.8)',
-    fontWeight: '500',
+    color: 'rgba(255, 255, 255, 0.9)',
+    fontWeight: '600',
+    textAlign: 'center',
   },
   continueButton: {
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: '#FFFFFF',
     paddingVertical: 16,
     paddingHorizontal: 32,
     borderRadius: 25,
-    borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.3)',
+    borderWidth: 0,
+    minWidth: 140,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 4,
+    },
+    shadowOpacity: 0.3,
+    shadowRadius: 4.65,
+    elevation: 8,
   },
   continueButtonText: {
     fontSize: 16,
-    color: '#FFFFFF',
-    fontWeight: '600',
+    color: '#6C63FF',
+    fontWeight: '700',
+    textAlign: 'center',
   },
 });
 
