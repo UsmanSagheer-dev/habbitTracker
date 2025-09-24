@@ -4,10 +4,10 @@ import {
   Text,
   TouchableOpacity,
   StyleSheet,
-  SafeAreaView,
   Platform,
   Image
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../navigation/types';
 import { IMAGES } from '../constants/images';
@@ -180,7 +180,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     backgroundColor: '#F7FAFC',
     borderRadius: 25,
-    paddingVertical: 16,
+    paddingVertical: 12,
     paddingHorizontal: 20,
     borderWidth: 1,
     borderColor: '#E2E8F0',
