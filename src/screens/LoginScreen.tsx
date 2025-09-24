@@ -125,7 +125,10 @@ const LoginScreen: React.FC<Props> = ({ navigation }) => {
             />
 
             <View style={styles.forgotPasswordContainer} >
-              <TouchableOpacity style={styles.forgotPassword}>
+              <TouchableOpacity 
+                style={styles.forgotPassword}
+                onPress={() => navigation.navigate('ForgotPassword')}
+              >
                 <Text style={styles.forgotPasswordText}>Forgot Password?</Text>
               </TouchableOpacity>
 
