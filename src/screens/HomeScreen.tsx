@@ -3,11 +3,11 @@ import {
   View,
   Text,
   StyleSheet,
-  SafeAreaView,
   ScrollView,
   TouchableOpacity,
   StatusBar,
 } from 'react-native';
+import { SafeAreaView } from 'react-native-safe-area-context';
 
 const HomeScreen: React.FC = () => {
   return (
@@ -33,7 +33,7 @@ const HomeScreen: React.FC = () => {
 
           <View style={styles.section}>
             <Text style={styles.sectionTitle}>Today's Habits</Text>
-            
+
             <View style={styles.habitCard}>
               <View style={styles.habitInfo}>
                 <Text style={styles.habitName}>Morning Exercise</Text>

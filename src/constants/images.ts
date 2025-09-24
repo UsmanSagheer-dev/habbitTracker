@@ -5,6 +5,7 @@ import GoogleLogo from '../assets/images/googleimg.jpeg'
 import FacebookLogo from '../assets/images/facebooklogo.png'
 import AppleLogo from '../assets/images/applelogo.png'
 import GithubLogo from '../assets/images/githublogo.jpg'
+import ArrowLeft from '../assets/images/arrowleft.jpg'
 export const IMAGES = {
     SplashLogo,
     HabitFirst,
@@ -12,7 +13,9 @@ export const IMAGES = {
     GoogleLogo,
     FacebookLogo,
     AppleLogo,
-    GithubLogo
+    GithubLogo,
+    ArrowLeft
+
 } as const;
 
 // Type for image keys - useful for TypeScript autocompletion
