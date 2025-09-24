@@ -5,7 +5,17 @@ import { Text, View } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 
 import { SplashScreen } from '../components';
-import { HomeScreen, OnboardingScreen, WelcomeScreen, LoginScreen, SignupScreen } from '../screens';
+import { 
+    HomeScreen, 
+    OnboardingScreen, 
+    WelcomeScreen, 
+    LoginScreen, 
+    SignupScreen,
+    ForgotPasswordScreen,
+    OTPVerificationScreen,
+    ResetPasswordScreen,
+    PasswordResetSuccessScreen
+} from '../screens';
 import HabitsScreen from '../screens/HabitsScreen';
 import StatisticsScreen from '../screens/StatisticsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
@@ -107,6 +117,10 @@ const AppNavigator: React.FC = () => {
             <Stack.Screen name="Welcome" component={WelcomeScreen} />
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Signup" component={SignupScreen} />
+            <Stack.Screen name="ForgotPassword" component={ForgotPasswordScreen} />
+            <Stack.Screen name="OTPVerification" component={OTPVerificationScreen} />
+            <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
+            <Stack.Screen name="PasswordResetSuccess" component={PasswordResetSuccessScreen} />
             <Stack.Screen name="Main" component={MainTabNavigator} />
         </Stack.Navigator>
     );
