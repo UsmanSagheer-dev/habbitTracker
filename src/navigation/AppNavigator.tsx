@@ -3,6 +3,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { Text, View } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
+import Icon from 'react-native-vector-icons/Ionicons';
 
 import { SplashScreen } from '../components';
 import { 
@@ -34,17 +35,28 @@ const MainTabNavigator: React.FC = () => {
                 headerShown: false,
                 tabBarStyle: {
                     backgroundColor: '#FFFFFF',
-                    borderTopWidth: 1,
-                    borderTopColor: '#E2E8F0',
-                    paddingBottom: 5,
-                    paddingTop: 5,
-                    height: 60,
+                    borderTopWidth: 0,
+                    elevation: 8,
+                    shadowColor: '#000',
+                    shadowOffset: {
+                        width: 0,
+                        height: -2,
+                    },
+                    shadowOpacity: 0.1,
+                    shadowRadius: 8,
+                    paddingBottom: 8,
+                    paddingTop: 8,
+                    height: 70,
                 },
-                tabBarActiveTintColor: '#6C63FF',
-                tabBarInactiveTintColor: '#A0AEC0',
+                tabBarActiveTintColor: '#6C5CE7',
+                tabBarInactiveTintColor: '#B2B2B2',
                 tabBarLabelStyle: {
-                    fontSize: 12,
-                    fontWeight: '600',
+                    fontSize: 11,
+                    fontWeight: '500',
+                    marginTop: 4,
+                },
+                tabBarIconStyle: {
+                    marginTop: 4,
                 },
             }}
         >
@@ -53,8 +65,8 @@ const MainTabNavigator: React.FC = () => {
                 component={HomeScreen}
                 options={{
                     tabBarLabel: 'Home',
-                    tabBarIcon: ({ color }: { color: string }) => (
-                        <Text style={{ color, fontSize: 20 }}>🏠</Text>
+                    tabBarIcon: ({ color, size }: { color: string; size: number }) => (
+                        <Icon name="home" size={size} color={color} />
                     ),
                 }}
             />
@@ -62,9 +74,9 @@ const MainTabNavigator: React.FC = () => {
                 name="Habits"
                 component={HabitsScreen}
                 options={{
-                    tabBarLabel: 'Habits',
-                    tabBarIcon: ({ color }: { color: string }) => (
-                        <Text style={{ color, fontSize: 20 }}>✅</Text>
+                    tabBarLabel: 'Mood Stat',
+                    tabBarIcon: ({ color, size }: { color: string; size: number }) => (
+                        <Icon name="happy" size={size} color={color} />
                     ),
                 }}
             />
@@ -72,9 +84,9 @@ const MainTabNavigator: React.FC = () => {
                 name="Statistics"
                 component={StatisticsScreen}
                 options={{
-                    tabBarLabel: 'Stats',
-                    tabBarIcon: ({ color }: { color: string }) => (
-                        <Text style={{ color, fontSize: 20 }}>📊</Text>
+                    tabBarLabel: 'Report',
+                    tabBarIcon: ({ color, size }: { color: string; size: number }) => (
+                        <Icon name="stats-chart" size={size} color={color} />
                     ),
                 }}
             />
@@ -82,9 +94,9 @@ const MainTabNavigator: React.FC = () => {
                 name="Profile"
                 component={ProfileScreen}
                 options={{
-                    tabBarLabel: 'Profile',
-                    tabBarIcon: ({ color }: { color: string }) => (
-                        <Text style={{ color, fontSize: 20 }}>👤</Text>
+                    tabBarLabel: 'Account',
+                    tabBarIcon: ({ color, size }: { color: string; size: number }) => (
+                        <Icon name="person-circle" size={size} color={color} />
                     ),
                 }}
             />
