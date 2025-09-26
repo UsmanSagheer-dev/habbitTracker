@@ -10,3 +10,5 @@ export { default as PasswordResetSuccessScreen } from './PasswordResetSuccessScr
 export { default as HabitsScreen } from './HabitsScreen';
 export { default as StatisticsScreen } from './StatisticsScreen';
 export { default as ProfileScreen } from './ProfileScreen';
+export { default as PostSignupOnboardingScreen } from './PostSignupOnboardingScreen';
+export { default as WakeUpTimeScreen } from './WakeUpTimeScreen';

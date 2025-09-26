@@ -15,13 +15,16 @@ import {
     ForgotPasswordScreen,
     OTPVerificationScreen,
     ResetPasswordScreen,
-    PasswordResetSuccessScreen
+    PasswordResetSuccessScreen,
+    PostSignupOnboardingScreen,
+    WakeUpTimeScreen
 } from '../screens';
 import HabitsScreen from '../screens/HabitsScreen';
 import StatisticsScreen from '../screens/StatisticsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
 import { RootStackParamList, MainTabParamList } from './types';
 import { IMAGES } from '../constants/images';
+
 
 const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<MainTabParamList>();
@@ -126,6 +129,7 @@ const AppNavigator: React.FC = () => {
                     />
                 )}
             </Stack.Screen>
+            <Stack.Screen name="PostSignupOnboarding" component={PostSignupOnboardingScreen} />
             <Stack.Screen name="Welcome" component={WelcomeScreen} />
             <Stack.Screen name="Login" component={LoginScreen} />
             <Stack.Screen name="Signup" component={SignupScreen} />
@@ -134,6 +138,7 @@ const AppNavigator: React.FC = () => {
             <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
             <Stack.Screen name="PasswordResetSuccess" component={PasswordResetSuccessScreen} />
             <Stack.Screen name="Main" component={MainTabNavigator} />
+            <Stack.Screen name="WakeUpTime" component={WakeUpTimeScreen} />
         </Stack.Navigator>
     );
 };
