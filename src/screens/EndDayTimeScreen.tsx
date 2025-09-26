@@ -12,17 +12,17 @@ import { useNavigation } from '@react-navigation/native';
 import { RootStackNavigationProp } from '../navigation/types';
 import { IMAGES } from '../constants/images';
 
-const WakeUpTimeScreen: React.FC = () => {
+const EndDayTimeScreen: React.FC = () => {
   const navigation = useNavigation<RootStackNavigationProp<'Main'>>();
-  const [selectedHour, setSelectedHour] = useState<number>(7);
-  const [selectedMinute, setSelectedMinute] = useState<number>(0);
+  const [selectedHour, setSelectedHour] = useState<number>(22);
+  const [selectedMinute, setSelectedMinute] = useState<number>(30);
 
   
   const hourScrollRef = useRef<ScrollView>(null);
   const minuteScrollRef = useRef<ScrollView>(null);
   
-  // Base arrays
-  const baseHours = Array.from({ length: 12 }, (_, i) => i + 1);
+  // Base arrays - for end day time, use full 24-hour format
+  const baseHours = Array.from({ length: 24 }, (_, i) => i); // 0-23
   const baseMinutes = Array.from({ length: 60 }, (_, i) => i);
   
   // Create extended arrays for infinite scroll (7 repetitions for smooth experience)
@@ -49,7 +49,7 @@ const WakeUpTimeScreen: React.FC = () => {
   const handleHourScroll = (event: any) => {
     const scrollY = event.nativeEvent.contentOffset.y;
     const newHour = getSelectedValue(scrollY, baseHours);
-    if (newHour && newHour !== selectedHour) {
+    if (newHour !== undefined && newHour !== selectedHour) {
       setSelectedHour(newHour);
     }
   };
@@ -130,7 +130,7 @@ const WakeUpTimeScreen: React.FC = () => {
   }, []);
 
   const handleContinue = () => {
-    navigation.navigate('EndDayTime');
+    navigation.navigate('Procrastination');
   };
 
   const goBack = () => {
@@ -150,18 +150,18 @@ const WakeUpTimeScreen: React.FC = () => {
           <View style={styles.progressBar}>
             <View style={styles.progressFill} />
           </View>
-          <Text style={styles.progressText}>2 / 8</Text>
+          <Text style={styles.progressText}>3 / 8</Text>
         </View>
       </View>
 
       <View style={styles.content}>
         <View style={styles.titleSection}>
           <Text style={styles.title}>What time do you usually</Text>
-          <Text style={styles.titleHighlight}>wake up ? ☀️</Text>
+          <Text style={styles.titleHighlight}>end your day? 🌙</Text>
           
           <Text style={styles.subtitle}>
-            Setting your wake-up time helps us create your
-            personalized habit schedule.
+            Let us know when you typically end your day to
+            optimize your habit tracking.
           </Text>
         </View>
 
@@ -228,7 +228,7 @@ const WakeUpTimeScreen: React.FC = () => {
               </ScrollView>
             </View>
 
-            {/* AM Only Selector */}
+            {/* PM Only Selector */}
             <View style={styles.amPmContainer}>
               <View
                 style={[
@@ -242,7 +242,7 @@ const WakeUpTimeScreen: React.FC = () => {
                     styles.selectedAmPmText,
                   ]}
                 >
-                  AM
+                  PM
                 </Text>
               </View>
             </View>
@@ -292,7 +292,7 @@ const styles = StyleSheet.create({
     marginRight: 12,
   },
   progressFill: {
-    width: '25%',
+    width: '37.5%',
     height: '100%',
     backgroundColor: '#6C63FF',
     borderRadius: 3,
@@ -427,4 +427,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default WakeUpTimeScreen;
+export default EndDayTimeScreen;

@@ -14,23 +14,21 @@ import { RootStackNavigationProp } from '../navigation/types';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { IMAGES } from '../constants/images';
 
-const PostSignupOnboardingScreen: React.FC = () => {
+const OrganizationMotivationScreen: React.FC = () => {
   const navigation = useNavigation<RootStackNavigationProp<'Main'>>();
-  const [selectedSleepOption, setSelectedSleepOption] = useState<string | null>(
-    null,
-  );
+  const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
 
-  const sleepOptions = [
-    { id: 'less-than-6', label: 'Less than 6 hours', emoji: '😴' },
-    { id: '6-7', label: '6 - 7 hours', emoji: '😊' },
-    { id: '7-8', label: '7 - 8 hours', emoji: '😌' },
-    { id: '8-9', label: '8 - 9 hours', emoji: '😁' },
-    { id: 'more-than-9', label: 'More than 9 hours', emoji: '😴' },
+  const motivationOptions = [
+    { id: 'lack-motivation', label: 'Lack of Motivation', emoji: '🎯' },
+    { id: 'work-overload', label: 'Work Overload', emoji: '🚀' },
+    { id: 'cluttered-environment', label: 'Cluttered Environment', emoji: '📧' },
+    { id: 'digital-distractions', label: 'Digital Distractions', emoji: '🎮' },
+    { id: 'time-management', label: 'Lack of Time Management', emoji: '📝' },
   ];
 
   const handleContinue = () => {
-    if (selectedSleepOption) {
-      navigation.navigate('WakeUpTime');
+    if (selectedOptions.length > 0) {
+      navigation.navigate('Goals');
     }
   };
 
@@ -38,8 +36,14 @@ const PostSignupOnboardingScreen: React.FC = () => {
     navigation.goBack();
   };
 
-  const handleSleepOptionSelect = (optionId: string) => {
-    setSelectedSleepOption(optionId);
+  const handleOptionSelect = (optionId: string) => {
+    setSelectedOptions(prev => {
+      if (prev.includes(optionId)) {
+        return prev.filter(id => id !== optionId);
+      } else {
+        return [...prev, optionId];
+      }
+    });
   };
 
   return (
@@ -57,35 +61,40 @@ const PostSignupOnboardingScreen: React.FC = () => {
           <View style={styles.progressBar}>
             <View style={styles.progressFill} />
           </View>
-          <Text style={styles.progressText}>1 / 8</Text>
+          <Text style={styles.progressText}>6 / 8</Text>
         </View>
       </View>
 
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         {/* Title Section */}
         <View style={styles.titleSection}>
-          <Text style={styles.title}>How long do you usually</Text>
-          <Text style={styles.titleHighlight}>sleep at night? 😴</Text>
+          <Text style={styles.title}>What influenced you to</Text>
+          <Text style={styles.titleHighlight}>become organized? ⚖️</Text>
 
           <Text style={styles.subtitle}>
-            Understanding your sleep patterns helps us tailor your habit
-            tracking experience.
+            Understanding your motivations helps us align
+            Habitly with your goals. Select all that apply.
           </Text>
         </View>
 
-        {/* Sleep Options */}
+        {/* Motivation Options */}
         <View style={styles.optionsContainer}>
-          {sleepOptions.map(option => (
+          {motivationOptions.map(option => (
             <TouchableOpacity
               key={option.id}
               style={[
                 styles.optionCard,
-                selectedSleepOption === option.id && styles.selectedOption,
+                selectedOptions.includes(option.id) && styles.selectedOption,
               ]}
-              onPress={() => handleSleepOptionSelect(option.id)}
+              onPress={() => handleOptionSelect(option.id)}
             >
               <Text style={styles.optionEmoji}>{option.emoji}</Text>
               <Text style={styles.optionLabel}>{option.label}</Text>
+              {selectedOptions.includes(option.id) && (
+                <View style={styles.checkmarkContainer}>
+                  <Text style={styles.checkmark}>✓</Text>
+                </View>
+              )}
             </TouchableOpacity>
           ))}
         </View>
@@ -96,15 +105,15 @@ const PostSignupOnboardingScreen: React.FC = () => {
         <TouchableOpacity
           style={[
             styles.continueButton,
-            !selectedSleepOption && styles.continueButtonDisabled,
+            selectedOptions.length === 0 && styles.continueButtonDisabled,
           ]}
           onPress={handleContinue}
-          disabled={!selectedSleepOption}
+          disabled={selectedOptions.length === 0}
         >
           <Text
             style={[
               styles.continueButtonText,
-              !selectedSleepOption && styles.continueButtonTextDisabled,
+              selectedOptions.length === 0 && styles.continueButtonTextDisabled,
             ]}
           >
             Continue
@@ -148,7 +157,7 @@ const styles = StyleSheet.create({
     marginRight: 12,
   },
   progressFill: {
-    width: '12.5%',
+    width: '75%',
     height: '100%',
     backgroundColor: '#6C63FF',
     borderRadius: 3,
@@ -204,6 +213,7 @@ const styles = StyleSheet.create({
     elevation: 4,
     borderWidth: 2,
     borderColor: 'transparent',
+    position: 'relative',
   },
   selectedOption: {
     borderColor: '#6C63FF',
@@ -217,6 +227,21 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: '#333',
     fontWeight: '500',
+    flex: 1,
+  },
+  checkmarkContainer: {
+    width: 24,
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: '#6C63FF',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 8,
+  },
+  checkmark: {
+    color: 'white',
+    fontSize: 14,
+    fontWeight: 'bold',
   },
   buttonContainer: {
     position: 'absolute',
@@ -244,4 +269,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PostSignupOnboardingScreen;
+export default OrganizationMotivationScreen;

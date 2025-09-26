@@ -13,6 +13,12 @@ export type RootStackParamList = {
     Main: undefined;
     PostSignupOnboarding: undefined;
     WakeUpTime: undefined;
+    EndDayTime: undefined;
+    Procrastination: undefined;
+    Focus: undefined;
+    OrganizationMotivation: undefined;
+    Goals: undefined;
+    Contract: undefined;
 };
 
 export type RootStackNavigationProp<T extends keyof RootStackParamList> = StackNavigationProp<RootStackParamList, T>;

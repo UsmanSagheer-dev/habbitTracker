@@ -14,23 +14,20 @@ import { RootStackNavigationProp } from '../navigation/types';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import { IMAGES } from '../constants/images';
 
-const PostSignupOnboardingScreen: React.FC = () => {
+const ProcrastinationScreen: React.FC = () => {
   const navigation = useNavigation<RootStackNavigationProp<'Main'>>();
-  const [selectedSleepOption, setSelectedSleepOption] = useState<string | null>(
-    null,
-  );
+  const [selectedOption, setSelectedOption] = useState<string | null>(null);
 
-  const sleepOptions = [
-    { id: 'less-than-6', label: 'Less than 6 hours', emoji: '😴' },
-    { id: '6-7', label: '6 - 7 hours', emoji: '😊' },
-    { id: '7-8', label: '7 - 8 hours', emoji: '😌' },
-    { id: '8-9', label: '8 - 9 hours', emoji: '😁' },
-    { id: 'more-than-9', label: 'More than 9 hours', emoji: '😴' },
+  const procrastinationOptions = [
+    { id: 'always', label: 'Always', emoji: '😰' },
+    { id: 'sometimes', label: 'Sometimes', emoji: '😕' },
+    { id: 'rarely', label: 'Rarely', emoji: '🤩' },
+    { id: 'never', label: 'Never', emoji: '😎' },
   ];
 
   const handleContinue = () => {
-    if (selectedSleepOption) {
-      navigation.navigate('WakeUpTime');
+    if (selectedOption) {
+      navigation.navigate('Focus');
     }
   };
 
@@ -38,8 +35,8 @@ const PostSignupOnboardingScreen: React.FC = () => {
     navigation.goBack();
   };
 
-  const handleSleepOptionSelect = (optionId: string) => {
-    setSelectedSleepOption(optionId);
+  const handleOptionSelect = (optionId: string) => {
+    setSelectedOption(optionId);
   };
 
   return (
@@ -57,32 +54,32 @@ const PostSignupOnboardingScreen: React.FC = () => {
           <View style={styles.progressBar}>
             <View style={styles.progressFill} />
           </View>
-          <Text style={styles.progressText}>1 / 8</Text>
+          <Text style={styles.progressText}>4 / 8</Text>
         </View>
       </View>
 
       <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
         {/* Title Section */}
         <View style={styles.titleSection}>
-          <Text style={styles.title}>How long do you usually</Text>
-          <Text style={styles.titleHighlight}>sleep at night? 😴</Text>
+          <Text style={styles.title}>Do you often</Text>
+          <Text style={styles.titleHighlight}>procrastinate? 👀</Text>
 
           <Text style={styles.subtitle}>
-            Understanding your sleep patterns helps us tailor your habit
-            tracking experience.
+            Understanding your procrastination tendencies
+            helps us tailor strategies to overcome them.
           </Text>
         </View>
 
-        {/* Sleep Options */}
+        {/* Procrastination Options */}
         <View style={styles.optionsContainer}>
-          {sleepOptions.map(option => (
+          {procrastinationOptions.map(option => (
             <TouchableOpacity
               key={option.id}
               style={[
                 styles.optionCard,
-                selectedSleepOption === option.id && styles.selectedOption,
+                selectedOption === option.id && styles.selectedOption,
               ]}
-              onPress={() => handleSleepOptionSelect(option.id)}
+              onPress={() => handleOptionSelect(option.id)}
             >
               <Text style={styles.optionEmoji}>{option.emoji}</Text>
               <Text style={styles.optionLabel}>{option.label}</Text>
@@ -96,15 +93,15 @@ const PostSignupOnboardingScreen: React.FC = () => {
         <TouchableOpacity
           style={[
             styles.continueButton,
-            !selectedSleepOption && styles.continueButtonDisabled,
+            !selectedOption && styles.continueButtonDisabled,
           ]}
           onPress={handleContinue}
-          disabled={!selectedSleepOption}
+          disabled={!selectedOption}
         >
           <Text
             style={[
               styles.continueButtonText,
-              !selectedSleepOption && styles.continueButtonTextDisabled,
+              !selectedOption && styles.continueButtonTextDisabled,
             ]}
           >
             Continue
@@ -148,7 +145,7 @@ const styles = StyleSheet.create({
     marginRight: 12,
   },
   progressFill: {
-    width: '12.5%',
+    width: '50%',
     height: '100%',
     backgroundColor: '#6C63FF',
     borderRadius: 3,
@@ -244,4 +241,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default PostSignupOnboardingScreen;
+export default ProcrastinationScreen;
