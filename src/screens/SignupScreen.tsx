@@ -59,7 +59,7 @@ const SignupScreen: React.FC<Props> = ({ navigation }) => {
     setTimeout(() => {
       setIsLoading(false);
       Alert.alert('Success', 'Account created successfully!', [
-        { text: 'OK', onPress: () => navigation.replace('Main') },
+        { text: 'OK', onPress: () => navigation.replace('PostSignupOnboarding') },
       ]);
     }, 1500);
   };

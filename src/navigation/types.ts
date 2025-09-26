@@ -1,3 +1,5 @@
+import { StackNavigationProp } from '@react-navigation/stack';
+
 export type RootStackParamList = {
     Splash: undefined;
     Onboarding: undefined;
@@ -9,7 +11,17 @@ export type RootStackParamList = {
     ResetPassword: { email: string; otp: string };
     PasswordResetSuccess: undefined;
     Main: undefined;
+    PostSignupOnboarding: undefined;
+    WakeUpTime: undefined;
+    EndDayTime: undefined;
+    Procrastination: undefined;
+    Focus: undefined;
+    OrganizationMotivation: undefined;
+    Goals: undefined;
+    Contract: undefined;
 };
+
+export type RootStackNavigationProp<T extends keyof RootStackParamList> = StackNavigationProp<RootStackParamList, T>;
 
 export type MainTabParamList = {
     Home: undefined;
