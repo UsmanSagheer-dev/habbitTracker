@@ -1,6 +1,7 @@
 import React from 'react';
 import { createStackNavigator } from '@react-navigation/stack';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { Text, View } from 'react-native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/Ionicons';
@@ -34,6 +35,7 @@ import { IMAGES } from '../constants/images';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const Tab = createBottomTabNavigator<MainTabParamList>();
+const Drawer = createDrawerNavigator();
 
 
 
@@ -113,6 +115,18 @@ const MainTabNavigator: React.FC = () => {
     );
 };
 
+const RootDrawerNavigator: React.FC = () => {
+    return (
+        <Drawer.Navigator
+            screenOptions={{
+                headerShown: false,
+            }}
+        >
+            <Drawer.Screen name="MainTabs" component={MainTabNavigator} />
+        </Drawer.Navigator>
+    );
+};
+
 const AppNavigator: React.FC = () => {
     return (
         <Stack.Navigator
@@ -143,7 +157,7 @@ const AppNavigator: React.FC = () => {
             <Stack.Screen name="OTPVerification" component={OTPVerificationScreen} />
             <Stack.Screen name="ResetPassword" component={ResetPasswordScreen} />
             <Stack.Screen name="PasswordResetSuccess" component={PasswordResetSuccessScreen} />
-            <Stack.Screen name="Main" component={MainTabNavigator} />
+            <Stack.Screen name="Main" component={RootDrawerNavigator} />
             <Stack.Screen name="WakeUpTime" component={WakeUpTimeScreen} />
             <Stack.Screen name="EndDayTime" component={EndDayTimeScreen} />
             <Stack.Screen name="Procrastination" component={ProcrastinationScreen} />

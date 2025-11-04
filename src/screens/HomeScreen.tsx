@@ -8,15 +8,31 @@ import {
   StatusBar,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { useNavigation } from '@react-navigation/native';
 
 const HomeScreen: React.FC = () => {
+  const navigation: any = useNavigation();
+
   return (
     <>
       <StatusBar backgroundColor="#6C63FF" barStyle="light-content" />
       <SafeAreaView style={styles.container}>
         <View style={styles.header}>
-          <Text style={styles.headerTitle}>My Habits</Text>
-          <Text style={styles.headerSubtitle}>Track your daily progress</Text>
+          <View style={styles.headerText}>
+            <Text style={styles.headerTitle}>My Habits</Text>
+            <Text style={styles.headerSubtitle}>Track your daily progress</Text>
+          </View>
+          <TouchableOpacity
+            style={styles.menuButton}
+            onPress={() => {
+              // open drawer if available
+              if (navigation && typeof navigation.openDrawer === 'function') {
+                navigation.openDrawer();
+              }
+            }}
+          >
+            <Text style={styles.menuIcon}>☰</Text>
+          </TouchableOpacity>
         </View>
 
         <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
@@ -77,7 +93,7 @@ const HomeScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F8F9FA',
+    backgroundColor: '#4d57c8',
   },
   header: {
     backgroundColor: '#6C63FF',
@@ -85,6 +101,26 @@ const styles = StyleSheet.create({
     paddingVertical: 30,
     borderBottomLeftRadius: 25,
     borderBottomRightRadius: 25,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  headerText: {
+    flex: 1,
+  },
+  menuButton: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: 'rgba(255,255,255,0.12)',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginLeft: 12,
+  },
+  menuIcon: {
+    color: '#FFFFFF',
+    fontSize: 22,
+    fontWeight: '600',
   },
   headerTitle: {
     fontSize: 28,
