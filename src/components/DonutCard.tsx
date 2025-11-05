@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, Image, ViewStyle } from 'react-native';
+import { View, Text, StyleSheet, Image, ViewStyle, TouchableOpacity } from 'react-native';
 import Svg, { Circle, G } from 'react-native-svg';
 
 type DonutCardProps = {
@@ -10,6 +10,8 @@ type DonutCardProps = {
   secondaryColor?: string;
   icon?: any; 
   style?: ViewStyle;
+  onPress?: () => void;
+  percentTextColor?: string;
 };
 
 const DonutCard: React.FC<DonutCardProps> = ({
@@ -20,6 +22,8 @@ const DonutCard: React.FC<DonutCardProps> = ({
   secondaryColor = '#E9EDF9',
   icon,
   style,
+  onPress,
+  percentTextColor = '#6C63FF',
 }) => {
   // Clamp percent between 0–100
   const progress = Math.min(Math.max(percent, 0), 100);
@@ -30,8 +34,10 @@ const DonutCard: React.FC<DonutCardProps> = ({
   const circumference = 2 * Math.PI * radius;
   const strokeDashoffset = circumference * (1 - progress / 100);
 
+  const Container: any = onPress ? TouchableOpacity : View;
+
   return (
-    <View style={[styles.card, style]}>
+    <Container style={[styles.card, style]} onPress={onPress} activeOpacity={0.85}>
       <View style={styles.pieWrap}>
         <Svg width={size} height={size}>
           <G rotation={-90} origin={`${halfSize}, ${halfSize}`}>
@@ -80,9 +86,9 @@ const DonutCard: React.FC<DonutCardProps> = ({
 
       <View style={styles.meta}>
         <Text style={styles.title}>{title}</Text>
-        <Text style={styles.percentText}>{progress}%</Text>
+        <Text style={[styles.percentText, { color: percentTextColor }]}>{progress}%</Text>
       </View>
-    </View>
+    </Container>
   );
 };
 
@@ -131,7 +137,6 @@ const styles = StyleSheet.create({
   percentText: {
     marginTop: 4,
     fontSize: 16,
-    color: '#6C63FF',
     fontWeight: '700',
   },
 });

@@ -18,3 +18,4 @@ export { default as FocusScreen } from './FocusScreen';
 export { default as OrganizationMotivationScreen } from './OrganizationMotivationScreen';
 export { default as GoalsScreen } from './GoalsScreen';
 export { default as ContractScreen } from './ContractScreen';
+export { default as HabitDetailScreen } from './HabitDetailScreen';

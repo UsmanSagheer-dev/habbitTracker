@@ -26,6 +26,7 @@ import {
     GoalsScreen,
     ContractScreen
 } from '../screens';
+import { HabitDetailScreen } from '../screens';
 import HabitsScreen from '../screens/HabitsScreen';
 import StatisticsScreen from '../screens/StatisticsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
@@ -123,6 +124,7 @@ const RootDrawerNavigator: React.FC = () => {
             }}
         >
             <Drawer.Screen name="MainTabs" component={MainTabNavigator} />
+            <Drawer.Screen name="Profile" component={ProfileScreen} />
         </Drawer.Navigator>
     );
 };
@@ -165,6 +167,7 @@ const AppNavigator: React.FC = () => {
             <Stack.Screen name="OrganizationMotivation" component={OrganizationMotivationScreen} />
             <Stack.Screen name="Goals" component={GoalsScreen} />
             <Stack.Screen name="Contract" component={ContractScreen} />
+            <Stack.Screen name="HabitDetail" component={HabitDetailScreen} />
         </Stack.Navigator>
     );
 };

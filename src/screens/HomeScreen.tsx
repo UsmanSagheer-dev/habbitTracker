@@ -15,6 +15,7 @@ import { useNavigation } from '@react-navigation/native';
 import { IMAGES } from '../constants/images';
 import DonutCard from '../components/DonutCard';
 import ActivityCard from '../components/ActivityCard';
+import AppHeader from '../components/AppHeader';
 
 const HomeScreen: React.FC = () => {
   const navigation: any = useNavigation();
@@ -71,22 +72,7 @@ const HomeScreen: React.FC = () => {
     <>
       <StatusBar backgroundColor="#6C63FF" barStyle="light-content" />
       <SafeAreaView style={styles.container}>
-        <View style={styles.header}>
-          <TouchableOpacity style={styles.headersub}>
-            <Image source={IMAGES.Diamond} />
-            <Text style={styles.headerText}>Try Free</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.menuButton}
-            onPress={() => {
-              if (navigation && typeof navigation.openDrawer === 'function') {
-                navigation.openDrawer();
-              }
-            }}
-          >
-            <Text style={styles.menuIcon}>☰</Text>
-          </TouchableOpacity>
-        </View>
+        <AppHeader navigation={navigation} />
 
         <ScrollView
           style={styles.content}
@@ -186,48 +172,56 @@ const HomeScreen: React.FC = () => {
               title="Drinking water"
               percent={10}
               icon={IMAGES.WaterGlass}
+              onPress={() => navigation.navigate('HabitDetail', { title: 'Drinking water', percent: 10 })}
             />
 
             <DonutCard
               title="Cycling"
               percent={40}
               icon={<Text style={{ fontSize: 26 }}>🚴</Text>}
+              onPress={() => navigation.navigate('HabitDetail', { title: 'Cycling', percent: 40 })}
             />
 
             <DonutCard
               title="Running"
               percent={60}
               icon={<Text style={{ fontSize: 26 }}>🏃‍♂️</Text>}
+              onPress={() => navigation.navigate('HabitDetail', { title: 'Running', percent: 60 })}
             />
 
             <DonutCard
               title="Reading"
               percent={30}
               icon={<Text style={{ fontSize: 26 }}>📚</Text>}
+              onPress={() => navigation.navigate('HabitDetail', { title: 'Reading', percent: 30 })}
             />
 
             <DonutCard
               title="Sleeping"
               percent={80}
               icon={<Text style={{ fontSize: 26 }}>😴</Text>}
+              onPress={() => navigation.navigate('HabitDetail', { title: 'Sleeping', percent: 80 })}
             />
 
             <DonutCard
               title="Meditation"
               percent={50}
               icon={<Text style={{ fontSize: 26 }}>🧘‍♂️</Text>}
+              onPress={() => navigation.navigate('HabitDetail', { title: 'Meditation', percent: 50 })}
             />
 
             <DonutCard
               title="Gym Workout"
               percent={70}
               icon={<Text style={{ fontSize: 26 }}>💪</Text>}
+              onPress={() => navigation.navigate('HabitDetail', { title: 'Gym Workout', percent: 70 })}
             />
 
             <DonutCard
               title="Coding Practice"
               percent={90}
               icon={<Text style={{ fontSize: 26 }}>💻</Text>}
+              onPress={() => navigation.navigate('HabitDetail', { title: 'Coding Practice', percent: 90 })}
             />
           </View>
 
