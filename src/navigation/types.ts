@@ -20,6 +20,7 @@ export type RootStackParamList = {
     Goals: undefined;
     Contract: undefined;
     HabitDetail: { title: string; percent?: number };
+    ChallengeDetail: { challengeTitle: string; duration: string };
 };
 
 export type RootStackNavigationProp<T extends keyof RootStackParamList> = StackNavigationProp<RootStackParamList, T>;

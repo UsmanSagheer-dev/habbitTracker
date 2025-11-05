@@ -19,3 +19,5 @@ export { default as OrganizationMotivationScreen } from './OrganizationMotivatio
 export { default as GoalsScreen } from './GoalsScreen';
 export { default as ContractScreen } from './ContractScreen';
 export { default as HabitDetailScreen } from './HabitDetailScreen';
+export { default as ChallengesScreen } from './ChallengesScreen';
+export { default as ChallengeDetailScreen } from './ChallengeDetailScreen';

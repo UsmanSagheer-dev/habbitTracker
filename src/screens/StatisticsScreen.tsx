@@ -1,285 +1,310 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
-    View,
-    Text,
-    StyleSheet,
-    ScrollView,
-    StatusBar,
+  View,
+  Text,
+  StyleSheet,
+  ScrollView,
+  StatusBar,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import AppHeader from '../components/AppHeader';
+import { useNavigation } from '@react-navigation/native';
 
 const StatisticsScreen: React.FC = () => {
-    return (
-        <>
-            <StatusBar backgroundColor="#6C63FF" barStyle="light-content" />
-            <SafeAreaView style={styles.container}>
-                <View style={styles.header}>
-                    <Text style={styles.headerTitle}>Statistics</Text>
-                    <Text style={styles.headerSubtitle}>Track your progress</Text>
+  const [currentStreak, setCurrentStreak] = useState(1);
+  const [longestStreak, setLongestStreak] = useState(1);
+  const navigation: any = useNavigation();
+
+  // Generate calendar days for current month
+  const generateCalendarDays = () => {
+    const daysInMonth = 31; // For demo purposes
+    const daysArray = [];
+    for (let i = 1; i <= daysInMonth; i++) {
+      daysArray.push({
+        day: i,
+        status: i <= 5 ? 'complete' : i <= 10 ? 'partial' : 'none',
+      });
+    }
+    return daysArray;
+  };
+
+  const calendarDays = generateCalendarDays();
+  const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+
+  return (
+    <>
+      <StatusBar backgroundColor="#6C63FF" barStyle="light-content" />
+      <SafeAreaView style={styles.container}>
+        {/* Header */}
+        <AppHeader headertext="Your statss" navigation={navigation} />
+
+        <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
+          {/* Calendar Card */}
+          <View style={styles.calendarCard}>
+            {/* Week days header */}
+            <View style={styles.weekDaysRow}>
+              {weekDays.map((day, index) => (
+                <Text key={index} style={styles.weekDayText}>
+                  {day}
+                </Text>
+              ))}
+            </View>
+
+            {/* Calendar grid */}
+            <View style={styles.calendarGrid}>
+              {calendarDays.map((dayObj, index) => (
+                <View key={index} style={styles.dayCell}>
+                  <Text style={styles.dayNumber}>{dayObj.day}</Text>
+                  {dayObj.status !== 'none' && (
+                    <View
+                      style={[
+                        styles.statusDot,
+                        dayObj.status === 'complete'
+                          ? styles.completeDot
+                          : styles.partialDot,
+                      ]}
+                    />
+                  )}
                 </View>
+              ))}
+            </View>
 
-                <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-                    <View style={styles.statsGrid}>
-                        <View style={styles.statCard}>
-                            <Text style={styles.statNumber}>75%</Text>
-                            <Text style={styles.statLabel}>Success Rate</Text>
-                            <Text style={styles.statSubtext}>This week</Text>
-                        </View>
-                        <View style={styles.statCard}>
-                            <Text style={styles.statNumber}>5</Text>
-                            <Text style={styles.statLabel}>Active Habits</Text>
-                            <Text style={styles.statSubtext}>Total habits</Text>
-                        </View>
-                    </View>
+            {/* Legend */}
+            <View style={styles.legend}>
+              <View style={styles.legendItem}>
+                <View style={[styles.legendDot, styles.completeDot]} />
+                <Text style={styles.legendText}>All complete</Text>
+              </View>
+              <View style={styles.legendItem}>
+                <View style={[styles.legendDot, styles.partialDot]} />
+                <Text style={styles.legendText}>Some complete</Text>
+              </View>
+            </View>
+          </View>
 
-                    <View style={styles.statsGrid}>
-                        <View style={styles.statCard}>
-                            <Text style={styles.statNumber}>21</Text>
-                            <Text style={styles.statLabel}>Current Streak</Text>
-                            <Text style={styles.statSubtext}>Days</Text>
-                        </View>
-                        <View style={styles.statCard}>
-                            <Text style={styles.statNumber}>87</Text>
-                            <Text style={styles.statLabel}>Total Days</Text>
-                            <Text style={styles.statSubtext}>All time</Text>
-                        </View>
-                    </View>
+          {/* Motivation Card */}
+          <View style={styles.motivationCard}>
+            <Text style={styles.motivationText}>
+              Complete habit to build your longest streak of perfect day.
+            </Text>
+          </View>
 
-                    <View style={styles.section}>
-                        <Text style={styles.sectionTitle}>Weekly Progress</Text>
-                        <View style={styles.weeklyChart}>
-                            <View style={styles.chartRow}>
-                                <Text style={styles.dayLabel}>Mon</Text>
-                                <View style={styles.progressBar}>
-                                    <View style={[styles.progressFill, { width: '80%' }]} />
-                                </View>
-                                <Text style={styles.percentageText}>80%</Text>
-                            </View>
-                            <View style={styles.chartRow}>
-                                <Text style={styles.dayLabel}>Tue</Text>
-                                <View style={styles.progressBar}>
-                                    <View style={[styles.progressFill, { width: '100%' }]} />
-                                </View>
-                                <Text style={styles.percentageText}>100%</Text>
-                            </View>
-                            <View style={styles.chartRow}>
-                                <Text style={styles.dayLabel}>Wed</Text>
-                                <View style={styles.progressBar}>
-                                    <View style={[styles.progressFill, { width: '60%' }]} />
-                                </View>
-                                <Text style={styles.percentageText}>60%</Text>
-                            </View>
-                            <View style={styles.chartRow}>
-                                <Text style={styles.dayLabel}>Thu</Text>
-                                <View style={styles.progressBar}>
-                                    <View style={[styles.progressFill, { width: '90%' }]} />
-                                </View>
-                                <Text style={styles.percentageText}>90%</Text>
-                            </View>
-                            <View style={styles.chartRow}>
-                                <Text style={styles.dayLabel}>Fri</Text>
-                                <View style={styles.progressBar}>
-                                    <View style={[styles.progressFill, { width: '70%' }]} />
-                                </View>
-                                <Text style={styles.percentageText}>70%</Text>
-                            </View>
-                            <View style={styles.chartRow}>
-                                <Text style={styles.dayLabel}>Sat</Text>
-                                <View style={styles.progressBar}>
-                                    <View style={[styles.progressFill, { width: '85%' }]} />
-                                </View>
-                                <Text style={styles.percentageText}>85%</Text>
-                            </View>
-                            <View style={styles.chartRow}>
-                                <Text style={styles.dayLabel}>Sun</Text>
-                                <View style={styles.progressBar}>
-                                    <View style={[styles.progressFill, { width: '95%' }]} />
-                                </View>
-                                <Text style={styles.percentageText}>95%</Text>
-                            </View>
-                        </View>
-                    </View>
+          {/* Current Streak Card */}
+          <View style={styles.streakCard}>
+            <Text style={styles.streakNumber}>{currentStreak} Day</Text>
+            <Text style={styles.streakLabel}>Your current streak</Text>
+            <Text style={styles.longestStreakNumber}>{longestStreak} Day</Text>
+            <Text style={styles.longestStreakLabel}>Your longest streak</Text>
+          </View>
 
-                    <View style={styles.section}>
-                        <Text style={styles.sectionTitle}>Best Performing Habits</Text>
-                        <View style={styles.habitPerformance}>
-                            <View style={styles.habitRow}>
-                                <Text style={styles.habitName}>📚 Reading</Text>
-                                <Text style={styles.habitScore}>95%</Text>
-                            </View>
-                            <View style={styles.habitRow}>
-                                <Text style={styles.habitName}>💧 Drink Water</Text>
-                                <Text style={styles.habitScore}>88%</Text>
-                            </View>
-                            <View style={styles.habitRow}>
-                                <Text style={styles.habitName}>🏃‍♂️ Exercise</Text>
-                                <Text style={styles.habitScore}>82%</Text>
-                            </View>
-                        </View>
-                    </View>
-                </ScrollView>
-            </SafeAreaView>
-        </>
-    );
+          {/* Bottom Cards */}
+          <View style={styles.bottomCardsRow}>
+            <View style={styles.smallCard}>
+              <View style={styles.calendarIcon}>
+                <Text style={styles.calendarIconText}>📅</Text>
+              </View>
+              <Text style={styles.smallCardNumber}>{currentStreak} Day</Text>
+            </View>
+            <View style={styles.smallCard}>
+              <View style={styles.checkIcon}>
+                <Text style={styles.checkIconText}>✓</Text>
+              </View>
+              <Text style={styles.smallCardNumber}>{currentStreak} Day</Text>
+            </View>
+          </View>
+        </ScrollView>
+      </SafeAreaView>
+    </>
+  );
 };
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        backgroundColor: '#F8F9FA',
-    },
-    header: {
-        backgroundColor: '#6C63FF',
-        paddingHorizontal: 20,
-        paddingVertical: 30,
-        borderBottomLeftRadius: 25,
-        borderBottomRightRadius: 25,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 4,
-        },
-        shadowOpacity: 0.3,
-        shadowRadius: 4.65,
-        elevation: 8,
-    },
-    headerTitle: {
-        fontSize: 28,
-        fontWeight: 'bold',
-        color: '#FFFFFF',
-        marginBottom: 5,
-    },
-    headerSubtitle: {
-        fontSize: 16,
-        color: '#E8E6FF',
-    },
-    content: {
-        flex: 1,
-        paddingHorizontal: 20,
-    },
-    statsGrid: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        marginTop: 20,
-        marginBottom: 10,
-    },
-    statCard: {
-        backgroundColor: '#FFFFFF',
-        borderRadius: 25,
-        padding: 20,
-        alignItems: 'center',
-        flex: 0.48,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-        elevation: 4,
-    },
-    statNumber: {
-        fontSize: 32,
-        fontWeight: 'bold',
-        color: '#6C63FF',
-        marginBottom: 5,
-    },
-    statLabel: {
-        fontSize: 14,
-        color: '#2D3748',
-        fontWeight: '600',
-        textAlign: 'center',
-        marginBottom: 2,
-    },
-    statSubtext: {
-        fontSize: 12,
-        color: '#A0AEC0',
-        textAlign: 'center',
-    },
-    section: {
-        marginTop: 20,
-        marginBottom: 20,
-    },
-    sectionTitle: {
-        fontSize: 20,
-        fontWeight: 'bold',
-        color: '#2D3748',
-        marginBottom: 15,
-    },
-    weeklyChart: {
-        backgroundColor: '#FFFFFF',
-        borderRadius: 25,
-        padding: 20,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-        elevation: 4,
-    },
-    chartRow: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 12,
-    },
-    dayLabel: {
-        fontSize: 14,
-        fontWeight: '600',
-        color: '#4A5568',
-        width: 40,
-    },
-    progressBar: {
-        flex: 1,
-        height: 8,
-        backgroundColor: '#E2E8F0',
-        borderRadius: 4,
-        marginHorizontal: 10,
-    },
-    progressFill: {
-        height: '100%',
-        backgroundColor: '#6C63FF',
-        borderRadius: 4,
-    },
-    percentageText: {
-        fontSize: 12,
-        fontWeight: 'bold',
-        color: '#6C63FF',
-        width: 35,
-        textAlign: 'right',
-    },
-    habitPerformance: {
-        backgroundColor: '#FFFFFF',
-        borderRadius: 25,
-        padding: 20,
-        shadowColor: '#000',
-        shadowOffset: {
-            width: 0,
-            height: 2,
-        },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-        elevation: 4,
-    },
-    habitRow: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        paddingVertical: 10,
-        borderBottomWidth: 1,
-        borderBottomColor: '#F7FAFC',
-    },
-    habitName: {
-        fontSize: 16,
-        fontWeight: '600',
-        color: '#2D3748',
-    },
-    habitScore: {
-        fontSize: 16,
-        fontWeight: 'bold',
-        color: '#48BB78',
-    },
+  container: {
+    flex: 1,
+    backgroundColor: '#6C63FF',
+  },
+  header: {
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  menuButton: {
+    width: 44,
+    height: 44,
+    borderRadius: 22,
+    backgroundColor: 'rgba(255,255,255,0.12)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  headerTextContainer: {
+    flex: 1,
+    alignItems: 'center',
+    marginLeft: -44,
+  },
+  headerTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    color: '#FFFFFF',
+  },
+  content: {
+    flex: 1,
+    paddingHorizontal: 20,
+    paddingTop: 10,
+  },
+  calendarCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    padding: 20,
+    marginBottom: 15,
+  },
+  weekDaysRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
+    marginBottom: 15,
+  },
+  weekDayText: {
+    fontSize: 12,
+    fontWeight: '600',
+    color: '#6C63FF',
+    width: 40,
+    textAlign: 'center',
+  },
+  calendarGrid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'flex-start',
+  },
+  dayCell: {
+    width: '14.28%',
+    aspectRatio: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 8,
+  },
+  dayNumber: {
+    fontSize: 14,
+    color: '#2D3748',
+    fontWeight: '500',
+  },
+  statusDot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    marginTop: 4,
+  },
+  completeDot: {
+    backgroundColor: '#6C63FF',
+  },
+  partialDot: {
+    backgroundColor: '#B8B0FF',
+  },
+  legend: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    marginTop: 15,
+    paddingTop: 15,
+    borderTopWidth: 1,
+    borderTopColor: '#E8E6FF',
+  },
+  legendItem: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: 10,
+  },
+  legendDot: {
+    width: 8,
+    height: 8,
+    borderRadius: 4,
+    marginRight: 6,
+  },
+  legendText: {
+    fontSize: 12,
+    color: '#718096',
+  },
+  motivationCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    padding: 20,
+    marginBottom: 15,
+  },
+  motivationText: {
+    fontSize: 14,
+    color: '#6C63FF',
+    textAlign: 'center',
+    fontWeight: '600',
+    lineHeight: 20,
+  },
+  streakCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    padding: 25,
+    marginBottom: 15,
+    alignItems: 'center',
+  },
+  streakNumber: {
+    fontSize: 36,
+    fontWeight: 'bold',
+    color: '#2D3748',
+    marginBottom: 5,
+  },
+  streakLabel: {
+    fontSize: 14,
+    color: '#718096',
+    marginBottom: 20,
+  },
+  longestStreakNumber: {
+    fontSize: 28,
+    fontWeight: 'bold',
+    color: '#6C63FF',
+    marginBottom: 5,
+  },
+  longestStreakLabel: {
+    fontSize: 14,
+    color: '#718096',
+  },
+  bottomCardsRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    marginBottom: 30,
+  },
+  smallCard: {
+    backgroundColor: '#FFFFFF',
+    borderRadius: 20,
+    padding: 20,
+    flex: 0.48,
+    alignItems: 'center',
+  },
+  calendarIcon: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: '#FFF5F5',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  calendarIconText: {
+    fontSize: 24,
+  },
+  checkIcon: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    backgroundColor: '#E6FFFA',
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  checkIconText: {
+    fontSize: 24,
+    color: '#38B2AC',
+  },
+  smallCardNumber: {
+    fontSize: 18,
+    fontWeight: 'bold',
+    color: '#2D3748',
+  },
 });
 
 export default StatisticsScreen;
