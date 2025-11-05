@@ -14,6 +14,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { useNavigation } from '@react-navigation/native';
 import { IMAGES } from '../constants/images';
 import DonutCard from '../components/DonutCard';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import ActivityCard from '../components/ActivityCard';
 import AppHeader from '../components/AppHeader';
 
@@ -23,6 +24,37 @@ const HomeScreen: React.FC = () => {
   const [showAllActivities, setShowAllActivities] = useState(false);
   const datesScrollRef = useRef<any>(null);
   const ITEM_WIDTH = 78;
+
+  // Progress state for each habit
+  const [habitProgress, setHabitProgress] = useState<{ [key: string]: number }>({});
+
+  useEffect(() => {
+    const loadAllProgress = async () => {
+      const habitTitles = [
+        'Drinking water',
+        'Cycling',
+        'Running',
+        'Reading',
+        'Sleeping',
+        'Meditation',
+        'Gym Workout',
+        'Coding Practice',
+      ];
+      const progressObj: { [key: string]: number } = {};
+      for (const title of habitTitles) {
+        try {
+          const value = await AsyncStorage.getItem(`habit_progress_${title}`);
+          progressObj[title] = value ? parseFloat(value) : 0;
+        } catch (e) {
+          progressObj[title] = 0;
+        }
+      }
+      setHabitProgress(progressObj);
+    };
+    loadAllProgress();
+    const unsubscribe = navigation.addListener('focus', loadAllProgress);
+    return unsubscribe;
+  }, [navigation]);
 
   // Animated FAB
   const pulseAnim = useRef(new Animated.Value(1)).current;
@@ -170,58 +202,58 @@ const HomeScreen: React.FC = () => {
           <View style={styles.cardContainer}>
             <DonutCard
               title="Drinking water"
-              percent={10}
+              percent={habitProgress['Drinking water'] || 0}
               icon={IMAGES.WaterGlass}
-              onPress={() => navigation.navigate('HabitDetail', { title: 'Drinking water', percent: 10 })}
+              onPress={() => navigation.navigate('HabitDetail', { title: 'Drinking water', percent: habitProgress['Drinking water'] || 0 })}
             />
 
             <DonutCard
               title="Cycling"
-              percent={40}
+              percent={habitProgress['Cycling'] || 0}
               icon={<Text style={{ fontSize: 26 }}>🚴</Text>}
-              onPress={() => navigation.navigate('HabitDetail', { title: 'Cycling', percent: 40 })}
+              onPress={() => navigation.navigate('HabitDetail', { title: 'Cycling', percent: habitProgress['Cycling'] || 0 })}
             />
 
             <DonutCard
               title="Running"
-              percent={60}
+              percent={habitProgress['Running'] || 0}
               icon={<Text style={{ fontSize: 26 }}>🏃‍♂️</Text>}
-              onPress={() => navigation.navigate('HabitDetail', { title: 'Running', percent: 60 })}
+              onPress={() => navigation.navigate('HabitDetail', { title: 'Running', percent: habitProgress['Running'] || 0 })}
             />
 
             <DonutCard
               title="Reading"
-              percent={30}
+              percent={habitProgress['Reading'] || 0}
               icon={<Text style={{ fontSize: 26 }}>📚</Text>}
-              onPress={() => navigation.navigate('HabitDetail', { title: 'Reading', percent: 30 })}
+              onPress={() => navigation.navigate('HabitDetail', { title: 'Reading', percent: habitProgress['Reading'] || 0 })}
             />
 
             <DonutCard
               title="Sleeping"
-              percent={80}
+              percent={habitProgress['Sleeping'] || 0}
               icon={<Text style={{ fontSize: 26 }}>😴</Text>}
-              onPress={() => navigation.navigate('HabitDetail', { title: 'Sleeping', percent: 80 })}
+              onPress={() => navigation.navigate('HabitDetail', { title: 'Sleeping', percent: habitProgress['Sleeping'] || 0 })}
             />
 
             <DonutCard
               title="Meditation"
-              percent={50}
+              percent={habitProgress['Meditation'] || 0}
               icon={<Text style={{ fontSize: 26 }}>🧘‍♂️</Text>}
-              onPress={() => navigation.navigate('HabitDetail', { title: 'Meditation', percent: 50 })}
+              onPress={() => navigation.navigate('HabitDetail', { title: 'Meditation', percent: habitProgress['Meditation'] || 0 })}
             />
 
             <DonutCard
               title="Gym Workout"
-              percent={70}
+              percent={habitProgress['Gym Workout'] || 0}
               icon={<Text style={{ fontSize: 26 }}>💪</Text>}
-              onPress={() => navigation.navigate('HabitDetail', { title: 'Gym Workout', percent: 70 })}
+              onPress={() => navigation.navigate('HabitDetail', { title: 'Gym Workout', percent: habitProgress['Gym Workout'] || 0 })}
             />
 
             <DonutCard
               title="Coding Practice"
-              percent={90}
+              percent={habitProgress['Coding Practice'] || 0}
               icon={<Text style={{ fontSize: 26 }}>💻</Text>}
-              onPress={() => navigation.navigate('HabitDetail', { title: 'Coding Practice', percent: 90 })}
+              onPress={() => navigation.navigate('HabitDetail', { title: 'Coding Practice', percent: habitProgress['Coding Practice'] || 0 })}
             />
           </View>
 

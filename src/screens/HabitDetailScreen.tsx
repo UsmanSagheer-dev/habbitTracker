@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Modal, TextInput } from 'react-native';
 import {
   SafeAreaView,
@@ -96,9 +97,7 @@ const HabitDetailScreen: React.FC = () => {
     weeklyData: [0, 0, 0, 0, 0, 0, 0],
   };
 
-  const [todayProgress, setTodayProgress] = useState(
-    Math.round((percent / 100) * (config.dailyGoal as number))
-  );
+  const [todayProgress, setTodayProgress] = useState(0);
   const [modalVisible, setModalVisible] = useState(false);
   const [inputValue, setInputValue] = useState('');
 
@@ -107,16 +106,35 @@ const HabitDetailScreen: React.FC = () => {
   const maxBarHeight = 120;
 
   // ---------- Log Progress ----------
+  useEffect(() => {
+    // Load progress from AsyncStorage
+    const loadProgress = async () => {
+      try {
+        const value = await AsyncStorage.getItem(`habit_progress_${title}`);
+        if (value !== null) {
+          setTodayProgress(parseFloat(value));
+        } else {
+          setTodayProgress(Math.round((percent / 100) * (config.dailyGoal as number)));
+        }
+      } catch (e) {}
+    };
+    loadProgress();
+  }, [title]);
+
   const logProgress = () => {
     setModalVisible(true);
   };
 
-  const handleAddProgress = () => {
+  const handleAddProgress = async () => {
     const num = parseFloat(inputValue || '0');
     if (!isNaN(num) && num > 0) {
-      setTodayProgress(todayProgress + num);
+      const newProgress = todayProgress + num;
+      setTodayProgress(newProgress);
       setInputValue('');
       setModalVisible(false);
+      try {
+        await AsyncStorage.setItem(`habit_progress_${title}`, newProgress.toString());
+      } catch (e) {}
     }
   };
 
