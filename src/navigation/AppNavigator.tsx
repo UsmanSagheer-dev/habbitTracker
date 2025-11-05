@@ -24,8 +24,11 @@ import {
     FocusScreen,
     OrganizationMotivationScreen,
     GoalsScreen,
-    ContractScreen
+    ContractScreen,
+    ChallengesScreen,
+    ChallengeDetailScreen
 } from '../screens';
+import { HabitDetailScreen } from '../screens';
 import HabitsScreen from '../screens/HabitsScreen';
 import StatisticsScreen from '../screens/StatisticsScreen';
 import ProfileScreen from '../screens/ProfileScreen';
@@ -81,6 +84,16 @@ const MainTabNavigator: React.FC = () => {
                     ),
                 }}
             />
+             <Tab.Screen
+                name="Statistics"
+                component={StatisticsScreen}
+                options={{
+                    tabBarLabel: 'Report',
+                    tabBarIcon: ({ color, size }: { color: string; size: number }) => (
+                        <Icon name="stats-chart" size={size} color={color} />
+                    ),
+                }}
+            />
             <Tab.Screen
                 name="Habits"
                 component={HabitsScreen}
@@ -91,16 +104,7 @@ const MainTabNavigator: React.FC = () => {
                     ),
                 }}
             />
-            <Tab.Screen
-                name="Statistics"
-                component={StatisticsScreen}
-                options={{
-                    tabBarLabel: 'Report',
-                    tabBarIcon: ({ color, size }: { color: string; size: number }) => (
-                        <Icon name="stats-chart" size={size} color={color} />
-                    ),
-                }}
-            />
+           
             <Tab.Screen
                 name="Profile"
                 component={ProfileScreen}
@@ -123,6 +127,8 @@ const RootDrawerNavigator: React.FC = () => {
             }}
         >
             <Drawer.Screen name="MainTabs" component={MainTabNavigator} />
+            <Drawer.Screen name="Profile" component={ProfileScreen} />
+            <Drawer.Screen name="Challenges" component={ChallengesScreen} />
         </Drawer.Navigator>
     );
 };
@@ -165,6 +171,8 @@ const AppNavigator: React.FC = () => {
             <Stack.Screen name="OrganizationMotivation" component={OrganizationMotivationScreen} />
             <Stack.Screen name="Goals" component={GoalsScreen} />
             <Stack.Screen name="Contract" component={ContractScreen} />
+            <Stack.Screen name="HabitDetail" component={HabitDetailScreen} />
+            <Stack.Screen name="ChallengeDetail" component={ChallengeDetailScreen} />
         </Stack.Navigator>
     );
 };
