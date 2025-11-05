@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   View,
   Text,
@@ -7,81 +8,145 @@ import {
   StatusBar,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import AppHeader from '../components/AppHeader';
 import { useNavigation } from '@react-navigation/native';
+import Svg, { Circle, G } from 'react-native-svg';
+import { 
+  Coffee,
+  Bike,
+  Droplet,
+  Bird,
+} from 'lucide-react-native';
+
+interface HabitCardData {
+  id: number;
+  title: string;
+  percent: number;
+  icon: React.ReactNode;
+  iconBgColor: string;
+}
 
 const HabitsScreen: React.FC = () => {
   const navigation: any = useNavigation();
+
+  const habits: HabitCardData[] = [
+    {
+      id: 1,
+      title: 'Drinking water',
+      percent: 75,
+      icon: <Coffee size={32} color="#7B7BFF" />,
+      iconBgColor: '#F5F5FF',
+    },
+    {
+      id: 2,
+      title: 'Cycling',
+      percent: 40,
+      icon: <Bike size={32} color="#7B7BFF" />,
+      iconBgColor: '#F5F5FF',
+    },
+    {
+      id: 3,
+      title: 'Water',
+      percent: 40,
+      icon: <Droplet size={32} color="#7B7BFF" />,
+      iconBgColor: '#F5F5FF',
+    },
+    {
+      id: 4,
+      title: 'Walking',
+      percent: 40,
+      icon: <Bird size={32} color="#7B7BFF" />,
+      iconBgColor: '#F5F5FF',
+    },
+    {
+      id: 5,
+      title: 'Water',
+      percent: 40,
+      icon: <Droplet size={32} color="#7B7BFF" />,
+      iconBgColor: '#F5F5FF',
+    },
+    {
+      id: 6,
+      title: 'Walking',
+      percent: 40,
+      icon: <Bird size={32} color="#7B7BFF" />,
+      iconBgColor: '#F5F5FF',
+    },
+  ];
+
+  const renderHabitCard = (habit: HabitCardData) => {
+    const size = 100;
+    const strokeWidth = 10;
+    const halfSize = size / 2;
+    const radius = halfSize - strokeWidth / 2;
+    const circumference = 2 * Math.PI * radius;
+    const progress = Math.min(Math.max(habit.percent, 0), 100);
+    const strokeDashoffset = circumference * (1 - progress / 100);
+
+    return (
+      <TouchableOpacity 
+        key={habit.id} 
+        style={styles.habitCard}
+        onPress={() => navigation.navigate('HabitDetail', { habit })}
+      >
+        <View style={styles.circleContainer}>
+          <Svg width={size} height={size}>
+            <G rotation={-90} origin={`${halfSize}, ${halfSize}`}>
+              {/* Background Circle */}
+              <Circle
+                stroke="#E5E5FF"
+                cx={halfSize}
+                cy={halfSize}
+                r={radius}
+                strokeWidth={strokeWidth}
+                fill="none"
+              />
+              {/* Progress Circle */}
+              <Circle
+                stroke="#7B7BFF"
+                cx={halfSize}
+                cy={halfSize}
+                r={radius}
+                strokeWidth={strokeWidth}
+                strokeLinecap="round"
+                strokeDasharray={`${circumference} ${circumference}`}
+                strokeDashoffset={strokeDashoffset}
+                fill="none"
+              />
+            </G>
+          </Svg>
+          <View style={[styles.iconContainer, { backgroundColor: habit.iconBgColor }]}>
+            {habit.icon}
+          </View>
+        </View>
+        <Text style={styles.habitTitle}>{habit.title}</Text>
+        <Text style={styles.habitPercent}>{habit.percent}%</Text>
+      </TouchableOpacity>
+    );
+  };
+
   return (
     <>
       <StatusBar backgroundColor="#6C63FF" barStyle="light-content" />
       <SafeAreaView style={styles.container}>
-        <AppHeader navigation={navigation} headertext="Stats" />
-
-        <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-          <TouchableOpacity style={styles.addButton}>
-            <Text style={styles.addButtonText}>+ Create New Habit</Text>
+        <View style={styles.header}>
+          <TouchableOpacity 
+            style={styles.menuButton}
+            onPress={() => navigation.openDrawer?.()}
+          >
+            <View style={styles.menuLine} />
+            <View style={styles.menuLine} />
+            <View style={styles.menuLine} />
           </TouchableOpacity>
+          <Text style={styles.headerTitle}>All Habits</Text>
+          <View style={styles.placeholder} />
+        </View>
 
-          <View style={styles.section}>
-            <Text style={styles.sectionTitle}>Active Habits</Text>
-
-            <View style={styles.habitCard}>
-              <View style={styles.habitInfo}>
-                <View style={styles.habitHeader}>
-                  <Text style={styles.habitName}>Morning Exercise</Text>
-                  <Text style={styles.habitStreak}>🔥 7 days</Text>
-                </View>
-                <Text style={styles.habitDescription}>
-                  30 minutes of workout every morning
-                </Text>
-                <Text style={styles.habitTime}>⏰ 6:00 AM</Text>
-              </View>
-              <View style={styles.habitProgress}>
-                <View style={styles.progressBar}>
-                  <View style={[styles.progressFill, { width: '70%' }]} />
-                </View>
-                <Text style={styles.progressText}>70%</Text>
-              </View>
-            </View>
-
-            <View style={styles.habitCard}>
-              <View style={styles.habitInfo}>
-                <View style={styles.habitHeader}>
-                  <Text style={styles.habitName}>Read Books</Text>
-                  <Text style={styles.habitStreak}>🔥 12 days</Text>
-                </View>
-                <Text style={styles.habitDescription}>
-                  Read for at least 30 minutes
-                </Text>
-                <Text style={styles.habitTime}>⏰ 7:00 PM</Text>
-              </View>
-              <View style={styles.habitProgress}>
-                <View style={styles.progressBar}>
-                  <View style={[styles.progressFill, { width: '85%' }]} />
-                </View>
-                <Text style={styles.progressText}>85%</Text>
-              </View>
-            </View>
-
-            <View style={styles.habitCard}>
-              <View style={styles.habitInfo}>
-                <View style={styles.habitHeader}>
-                  <Text style={styles.habitName}>Drink Water</Text>
-                  <Text style={styles.habitStreak}>🔥 5 days</Text>
-                </View>
-                <Text style={styles.habitDescription}>
-                  8 glasses of water daily
-                </Text>
-                <Text style={styles.habitTime}>⏰ Throughout the day</Text>
-              </View>
-              <View style={styles.habitProgress}>
-                <View style={styles.progressBar}>
-                  <View style={[styles.progressFill, { width: '60%' }]} />
-                </View>
-                <Text style={styles.progressText}>60%</Text>
-              </View>
-            </View>
+        <ScrollView 
+          style={styles.content} 
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={styles.grid}>
+            {habits.map(habit => renderHabitCard(habit))}
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -92,132 +157,98 @@ const HabitsScreen: React.FC = () => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#4d57c8',
+    backgroundColor: '#6C63FF',
   },
   header: {
     backgroundColor: '#6C63FF',
     paddingHorizontal: 20,
-    paddingVertical: 30,
-    borderBottomLeftRadius: 25,
-    borderBottomRightRadius: 25,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 4,
-    },
-    shadowOpacity: 0.3,
-    shadowRadius: 4.65,
-    elevation: 8,
+    paddingVertical: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
+  },
+  menuButton: {
+    width: 30,
+    height: 30,
+    justifyContent: 'space-between',
+    paddingVertical: 6,
+  },
+  menuLine: {
+    width: '100%',
+    height: 2,
+    backgroundColor: '#FFFFFF',
+    borderRadius: 2,
   },
   headerTitle: {
-    fontSize: 28,
-    fontWeight: 'bold',
+    fontSize: 20,
+    fontWeight: '600',
     color: '#FFFFFF',
-    marginBottom: 5,
+    flex: 1,
+    textAlign: 'center',
   },
-  headerSubtitle: {
-    fontSize: 16,
-    color: '#E8E6FF',
+  placeholder: {
+    width: 30,
   },
   content: {
     flex: 1,
-    paddingHorizontal: 20,
+    backgroundColor: '#FFFFFF',
+    borderTopLeftRadius: 30,
+    borderTopRightRadius: 30,
+    marginTop: 10,
+    paddingTop: 24,
   },
-  addButton: {
-    backgroundColor: '#48BB78',
-    borderRadius: 25,
-    padding: 20,
-    alignItems: 'center',
-    marginTop: 20,
-    marginBottom: 20,
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 4,
-  },
-  addButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  section: {
-    marginBottom: 30,
-  },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: 'bold',
-    color: '#2D3748',
-    marginBottom: 15,
+  grid: {
+    flexDirection: 'row',
+    flexWrap: 'wrap',
+    justifyContent: 'space-between',
+    paddingHorizontal: 16,
+    paddingBottom: 20,
   },
   habitCard: {
-    backgroundColor: '#FFFFFF',
-    borderRadius: 25,
-    padding: 20,
-    marginBottom: 15,
-    shadowColor: '#000',
+    backgroundColor: '#F5F5FF',
+    borderRadius: 20,
+    padding: 16,
+    marginBottom: 16,
+    width: '48%',
+    alignItems: 'center',
+    shadowColor: '#7B7BFF',
     shadowOffset: {
       width: 0,
       height: 2,
     },
-    shadowOpacity: 0.1,
-    shadowRadius: 3,
-    elevation: 4,
+    shadowOpacity: 0.08,
+    shadowRadius: 4,
+    elevation: 2,
   },
-  habitInfo: {
-    marginBottom: 15,
-  },
-  habitHeader: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+  circleContainer: {
+    position: 'relative',
+    marginBottom: 12,
     alignItems: 'center',
-    marginBottom: 8,
+    justifyContent: 'center',
   },
-  habitName: {
-    fontSize: 18,
-    fontWeight: 'bold',
-    color: '#2D3748',
-  },
-  habitStreak: {
-    fontSize: 14,
-    color: '#FF6B35',
-    fontWeight: 'bold',
-  },
-  habitDescription: {
-    fontSize: 14,
-    color: '#718096',
-    marginBottom: 5,
-  },
-  habitTime: {
-    fontSize: 14,
-    color: '#6C63FF',
-    fontWeight: '600',
-  },
-  habitProgress: {
-    flexDirection: 'row',
+  iconContainer: {
+    position: 'absolute',
+    width: 60,
+    height: 60,
+    borderRadius: 30,
     alignItems: 'center',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
+    backgroundColor: '#F5F5FF',
   },
-  progressBar: {
-    flex: 1,
-    height: 8,
-    backgroundColor: '#E2E8F0',
-    borderRadius: 4,
-    marginRight: 10,
-  },
-  progressFill: {
-    height: '100%',
-    backgroundColor: '#6C63FF',
-    borderRadius: 4,
-  },
-  progressText: {
+  habitTitle: {
     fontSize: 14,
-    fontWeight: 'bold',
-    color: '#6C63FF',
+    fontWeight: '500',
+    color: '#7B7BFF',
+    marginBottom: 4,
+    textAlign: 'center',
+  },
+  habitPercent: {
+    fontSize: 16,
+    fontWeight: '700',
+    color: '#7B7BFF',
+    textAlign: 'center',
   },
 });
 
 export default HabitsScreen;
+ 
